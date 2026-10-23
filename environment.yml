@@ -1,0 +1,14 @@
+name: seismic-l1
+channels:
+  - gimli
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pygimli>=1.6
+  - obspy
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - jupyter
+  - ipykernel

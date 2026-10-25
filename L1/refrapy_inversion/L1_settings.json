@@ -1,0 +1,45 @@
+{
+  "input_files": [
+    "L1/RF/2026-10-08_RF_-5m.dat",
+    "L1/RF/2026-10-08_RF_12.5m.dat",
+    "L1/RF/2026-10-08_RF_27.5m.dat",
+    "L1/RF/2026-10-08_RF_47.5m.dat",
+    "L1/RF/2026-10-08_RF_60m.dat"
+  ],
+  "source_x_overrides": {
+    "2026-10-08_RF_47.5m.dat": 47.5
+  },
+  "pick_overrides": [],
+  "picking": {
+    "v_min": 150.0,
+    "v_max": 1500.0,
+    "noise_window": 0.01,
+    "threshold": 3.0
+  },
+  "pick_error_s": 0.0035,
+  "rejection_threshold_s": 0.01,
+  "mesh": {
+    "para_dx": 0.33,
+    "para_depth": 12.0,
+    "quality": 33.5,
+    "max_cell_size": 1.0,
+    "para_boundary": 0.5
+  },
+  "inversion": {
+    "lam": 100.0,
+    "z_weight": 1.0,
+    "v_top": 250.0,
+    "v_bottom": 1500.0,
+    "correlation_lengths": [
+      80.0,
+      1.0
+    ]
+  },
+  "versions": {
+    "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+    "pygimli": "1.5.5",
+    "numpy": "2.2.6",
+    "obspy": "1.5.1"
+  },
+  "status": "Preliminary automatic picks; flat 2D geometry; review required"
+}

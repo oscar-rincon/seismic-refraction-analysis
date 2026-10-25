@@ -26,6 +26,26 @@ def vp_profile_from_tomogram(manager, x_center, z_min=0.3, z_max=10.0, n_depths=
     return pd.DataFrame({"depth_m": depths, "vp_m_s": vp})
 
 
+def average_vp_profile(manager, x_min, x_max, z_min=0.3, z_max=10.0,
+                       n_depths=40, n_x=56):
+    """Laterally averaged Vp(z) over x_min..x_max from the 2D tomogram.
+
+    Returns depth_m, vp_m_s (mean), vp_p10_m_s and vp_p90_m_s (lateral spread).
+    """
+    import pygimli as pg
+
+    depths = np.linspace(z_min, z_max, n_depths)
+    xs = np.linspace(x_min, x_max, n_x)
+    points = [[x, -z] for z in depths for x in xs]
+    vp = np.array(pg.interpolate(manager.paraDomain, manager.velocity, points)).reshape(n_depths, n_x)
+    return pd.DataFrame({
+        "depth_m": depths,
+        "vp_m_s": vp.mean(axis=1),
+        "vp_p10_m_s": np.percentile(vp, 10, axis=1),
+        "vp_p90_m_s": np.percentile(vp, 90, axis=1),
+    })
+
+
 def elastic_properties(vp_profile, vs_profile, rho=1800.0):
     """Combine Vp(z) and Vs(z) into dynamic elastic properties.
 

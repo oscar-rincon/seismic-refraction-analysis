@@ -1,0 +1,61 @@
+shot_index,receiver_index,source_x_m,receiver_x_m,original_ms,candidate_ms,shift_ms,window_spread_ms,variance_std_ratio,review_flags,selection_method,needs_review,selected_ms,selected_shift_ms
+0,0,-5.0,0.0,6.500000000000001,11.75,5.249999999999999,0.9999999999999991,10.306656022175204,large change (>5 ms),unresolved reference,True,6.500000000000001,0.0
+0,1,-5.0,5.0,13.125,14.125,1.0000000000000009,0.1250000000000001,9.876690979580399,visual confirmation required,stable AIC candidate,False,14.125,1.0
+0,2,-5.0,10.0,17.0,16.625,-0.37500000000000033,1.0000000000000009,5.93625616479021,visual confirmation required,stable AIC candidate,False,16.625,-0.375
+0,3,-5.0,15.0,19.5,20.625,1.1250000000000009,0.1250000000000001,2.0808337963626857,weak variance contrast (<3),unresolved reference,True,19.5,0.0
+0,4,-5.0,20.0,22.625,29.875000000000004,7.250000000000003,9.999999999999998,0.6930522869672754,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,22.625,0.0
+0,5,-5.0,25.0,25.750000000000004,31.75,5.999999999999998,1.5000000000000013,0.7317907078532866,weak variance contrast (<3); large change (>5 ms),unresolved reference,True,25.750000000000004,0.0
+0,6,-5.0,30.0,28.625,35.87500000000001,7.250000000000003,2.499999999999995,0.5742386872946936,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,28.625,0.0
+0,7,-5.0,35.0,31.875,39.25,7.375,10.75,2.066467626666672,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,31.875,0.0
+0,8,-5.0,40.0,39.0,37.125,-1.8750000000000018,0.0,0.8114817153620062,weak variance contrast (<3),unresolved reference,True,39.0,0.0
+0,9,-5.0,45.0,43.87500000000001,44.125,0.24999999999999328,0.0,1.5321244809835082,weak variance contrast (<3),unresolved reference,True,43.87500000000001,0.0
+0,10,-5.0,50.0,47.125,42.125,-4.999999999999997,1.6250000000000013,2.4835662948858173,weak variance contrast (<3),unresolved reference,True,47.125,0.0
+0,11,-5.0,55.0,50.375,45.625,-4.750000000000004,1.0000000000000009,0.7998661591738805,weak variance contrast (<3),unresolved reference,True,50.375,0.0
+1,0,12.5,0.0,17.0,17.25,0.2500000000000002,0.7500000000000007,10.59853256110016,visual confirmation required,stable AIC candidate,False,17.25,0.25
+1,1,12.5,5.0,12.0,13.75,1.7499999999999998,0.0,22.189663094117844,visual confirmation required,stable AIC candidate,False,13.75,1.75
+1,2,12.5,10.0,9.875,5.875,-4.0,0.37500000000000033,25.39017788345751,visual confirmation required,stable AIC candidate,False,5.875,-4.0
+1,3,12.5,15.0,9.875,6.500000000000001,-3.3749999999999996,0.1250000000000001,13.587255321094425,visual confirmation required,stable AIC candidate,False,6.500000000000001,-3.374999999999999
+1,4,12.5,20.0,11.75,13.375,1.6249999999999998,0.1250000000000001,15.096464471076997,visual confirmation required,stable AIC candidate,False,13.375,1.625
+1,5,12.5,25.0,16.75,16.375,-0.37500000000000033,0.0,7.633938120894005,visual confirmation required,stable AIC candidate,False,16.375,-0.375
+1,6,12.5,30.0,18.5,19.25,0.7500000000000007,0.37500000000000033,14.188249064116262,visual confirmation required,stable AIC candidate,False,19.25,0.75
+1,7,12.5,35.0,21.0,28.375,7.375,11.25,0.9741439364569315,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,21.0,0.0
+1,8,12.5,40.0,25.25,33.0,7.75,9.625000000000002,0.6648099905799749,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,25.25,0.0
+1,9,12.5,45.0,28.75,26.375,-2.375000000000002,0.2500000000000002,2.126168768144997,weak variance contrast (<3),unresolved reference,True,28.75,0.0
+1,10,12.5,50.0,30.875,32.25,1.3750000000000013,1.0000000000000009,2.351637277201893,weak variance contrast (<3),unresolved reference,True,30.875,0.0
+1,11,12.5,55.0,41.375,45.25,3.8749999999999964,18.375,1.1448636226755453,window-sensitive (>2 ms); weak variance contrast (<3),unresolved reference,True,41.375,0.0
+2,0,27.5,0.0,24.125,17.0,-7.124999999999999,18.000000000000004,1.6797549984172249,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,24.125,0.0
+2,1,27.5,5.0,20.25,22.5,2.2499999999999987,0.1250000000000001,24.935152575641645,visual confirmation required,stable AIC candidate,False,22.5,2.25
+2,2,27.5,10.0,19.25,18.875,-0.37500000000000033,1.5000000000000013,12.782251916084586,visual confirmation required,stable AIC candidate,False,18.875,-0.375
+2,3,27.5,15.0,13.375,17.0,3.6250000000000013,0.0,11.323852933198875,visual confirmation required,stable AIC candidate,False,17.0,3.625
+2,4,27.5,20.0,10.375,14.25,3.875,0.1250000000000001,24.291988019554097,visual confirmation required,stable AIC candidate,False,14.25,3.875
+2,5,27.5,25.0,7.125,7.125,0.0,0.0,5.763758802354891,visual confirmation required,stable AIC candidate,False,7.125,0.0
+2,6,27.5,30.0,7.75,7.75,0.0,0.0,8.477974753077692,visual confirmation required,stable AIC candidate,False,7.75,0.0
+2,7,27.5,35.0,10.375,13.375,2.999999999999999,0.2500000000000002,22.95242042162654,visual confirmation required,stable AIC candidate,False,13.375,3.0
+2,8,27.5,40.0,13.25,17.625,4.375000000000002,0.0,20.449061275870438,visual confirmation required,stable AIC candidate,False,17.625,4.375
+2,9,27.5,45.0,20.625,20.0,-0.6250000000000006,0.1250000000000001,4.044059768159971,visual confirmation required,stable AIC candidate,False,20.0,-0.625
+2,10,27.5,50.0,20.5,21.875000000000004,1.3750000000000013,0.499999999999997,10.015334926081131,visual confirmation required,stable AIC candidate,False,21.875000000000004,1.3750000000000036
+2,11,27.5,55.0,20.875,23.875,2.999999999999999,1.6250000000000013,2.5029302640475537,weak variance contrast (<3),unresolved reference,True,20.875,0.0
+3,0,47.5,0.0,81.875,81.875,0.0,1.250000000000001,3.278452142583991,visual confirmation required,stable AIC candidate,False,81.875,0.0
+3,1,47.5,5.0,55.625,54.75,-0.8750000000000008,11.875000000000004,1.0829099535057785,window-sensitive (>2 ms); weak variance contrast (<3),unresolved reference,True,55.625,0.0
+3,2,47.5,10.0,50.625,49.0,-1.6250000000000013,14.75,0.841817836947501,window-sensitive (>2 ms); weak variance contrast (<3),unresolved reference,True,50.625,0.0
+3,3,47.5,15.0,37.125,34.375,-2.7499999999999956,0.2500000000000002,0.6715639842957388,weak variance contrast (<3),unresolved reference,True,37.125,0.0
+3,4,47.5,20.0,33.875,34.125,0.2500000000000002,0.6250000000000006,0.5026676077238695,weak variance contrast (<3),unresolved reference,True,33.875,0.0
+3,5,47.5,25.0,29.625000000000004,28.625,-1.0000000000000009,1.0000000000000009,1.0408442368911435,weak variance contrast (<3),unresolved reference,True,29.625000000000004,0.0
+3,6,47.5,30.0,23.875,18.375,-5.500000000000002,8.75,16.534475202876553,window-sensitive (>2 ms); large change (>5 ms),unresolved reference,True,23.875,0.0
+3,7,47.5,35.0,20.625,14.750000000000002,-5.875,0.4999999999999987,37.73069282388714,large change (>5 ms),unresolved reference,True,20.625,0.0
+3,8,47.5,40.0,18.875,25.25,6.375000000000002,0.37500000000000033,2.081729444888255,weak variance contrast (<3); large change (>5 ms),unresolved reference,True,18.875,0.0
+3,9,47.5,45.0,12.5,13.000000000000002,0.5000000000000004,3.2499999999999996,2.2724601739599897,window-sensitive (>2 ms); weak variance contrast (<3),unresolved reference,True,12.5,0.0
+3,10,47.5,50.0,13.375,14.750000000000002,1.3750000000000013,0.2499999999999985,20.33244348232312,visual confirmation required,stable AIC candidate,False,14.750000000000002,1.3750000000000018
+3,11,47.5,55.0,18.875,19.75,0.8750000000000008,0.1250000000000001,2.795141398252756,weak variance contrast (<3),unresolved reference,True,18.875,0.0
+4,0,60.0,0.0,52.625,46.25,-6.374999999999999,1.6250000000000013,2.973147608170592,weak variance contrast (<3); large change (>5 ms),unresolved reference,True,52.625,0.0
+4,1,60.0,5.0,49.375,55.625,6.249999999999998,12.374999999999996,0.39632577450307144,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,49.375,0.0
+4,2,60.0,10.0,46.375,53.875,7.5,10.999999999999996,0.7292187717922788,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,46.375,0.0
+4,3,60.0,15.0,43.37500000000001,53.625,10.249999999999995,12.749999999999998,0.46541965829799714,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,43.37500000000001,0.0
+4,4,60.0,20.0,32.75,27.375,-5.375000000000001,4.750000000000001,0.8225063566659436,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,32.75,0.0
+4,5,60.0,25.0,28.125,37.625,9.499999999999998,7.124999999999999,0.6825014500691178,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,28.125,0.0
+4,6,60.0,30.0,25.0,33.0,8.0,13.375000000000002,0.20479747607789345,window-sensitive (>2 ms); weak variance contrast (<3); large change (>5 ms),unresolved reference,True,25.0,0.0
+4,7,60.0,35.0,22.875,23.125,0.2500000000000002,0.1250000000000001,6.6592979397661045,visual confirmation required,stable AIC candidate,False,23.125,0.25
+4,8,60.0,40.0,21.125,23.375,2.2499999999999987,0.1250000000000001,2.376441834003844,weak variance contrast (<3),unresolved reference,True,21.125,0.0
+4,9,60.0,45.0,15.0,20.75,5.750000000000002,0.1250000000000001,5.274790880305973,large change (>5 ms),unresolved reference,True,15.0,0.0
+4,10,60.0,50.0,12.125,13.875,1.7499999999999998,1.1249999999999993,2.839486958049159,weak variance contrast (<3),unresolved reference,True,12.125,0.0
+4,11,60.0,55.0,8.375,8.5,0.1250000000000001,0.0,24.463021505787378,visual confirmation required,stable AIC candidate,False,8.5,0.125

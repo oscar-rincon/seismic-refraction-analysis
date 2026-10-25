@@ -1,0 +1,4 @@
+shot_index,receiver_index,source_x_m,receiver_x_m,original_time_ms
+3,0,47.5,0.0,59.50000000000001
+3,1,47.5,5.0,52.625
+3,2,47.5,10.0,47.625

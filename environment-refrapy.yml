@@ -1,0 +1,19 @@
+name: refrapy-l1
+channels:
+  - gimli
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+  - pygimli=1.5.5
+  - obspy
+  - numpy
+  - scipy
+  - matplotlib
+  - pandas
+  - jupyter
+  - ipykernel
+  - tk
+  - pip
+  - pip:
+      - Pmw==2.1.1

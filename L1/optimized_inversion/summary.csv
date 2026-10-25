@@ -1,0 +1,2 @@
+picks,selected_depth_m,selected_lambda,training_rms_ms,selection_cv_rms_ms,training_relative_rms_percent,chi_squared,vp_min_m_s,vp_max_m_s
+60,8.0,0.3,2.3766754495910836,3.713567139645024,14.806793410310224,0.46110907695420195,143.11370340637848,1915.6452717527955

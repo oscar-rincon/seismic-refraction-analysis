@@ -1,0 +1,40 @@
+{
+  "depths": [
+    8.0,
+    12.0,
+    18.0
+  ],
+  "lambdas": [
+    0.03,
+    0.1,
+    0.3,
+    1.0,
+    3.0,
+    10.0,
+    30.0,
+    300.0
+  ],
+  "folds": 3,
+  "max_iter": 12,
+  "source_overrides": {
+    "2026-10-08_RF_47.5m.dat": 47.5
+  },
+  "z_weight": 1.0,
+  "pick_error_s": 0.0035,
+  "picking": {
+    "v_min": 150,
+    "v_max": 1500,
+    "noise_window": 0.01,
+    "threshold": 3.0
+  },
+  "start_model": "homogeneous training median apparent velocity",
+  "mesh": {
+    "para_dx": 0.5,
+    "max_cell_size": 2.0,
+    "para_boundary": 0.5
+  },
+  "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+  "pygimli": "1.5.5",
+  "numpy": "2.2.6",
+  "status": "Preliminary automatic picks; search-selection CV, not independent test error"
+}

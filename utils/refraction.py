@@ -2,6 +2,8 @@
 and (optional) 2D traveltime tomography with pyGIMLi.
 """
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
@@ -221,6 +223,40 @@ def build_traveltime_data(gathers, picks_per_shot, pick_error=0.001):
     data.set("valid", np.ones(n))
     print(f"Traveltime data: {data.sensorCount()} sensors, {n} picks")
     return data
+
+
+def export_refrapy_picks(data, filename: str | Path) -> Path:
+    """Write 2D picks in the strict Refrapick/Refrainv .sgt layout.
+
+    Sensor indices are one-based on disk and traveltimes are in seconds.
+    The GUI only reads s/g/t, so uncertainty and validity fields are not
+    exported; only valid rows are included. Existing output is overwritten.
+    """
+    positions = np.array([[p.x(), p.y(), p.z()] for p in data.sensorPositions()])
+    if positions.size == 0 or not np.all(np.isfinite(positions)):
+        raise ValueError("Refrapy export requires finite sensor coordinates.")
+    if np.any(positions[:, 2] != 0):
+        raise ValueError("Refrapy export requires 2D x/elevation coordinates, not 3D geometry.")
+    valid = np.asarray(data["valid"]) != 0
+    shots = np.asarray(data["s"])[valid]
+    receivers = np.asarray(data["g"])[valid]
+    times = np.asarray(data["t"])[valid]
+    if not len(times) or not np.all(np.isfinite(times)) or np.any(times <= 0):
+        raise ValueError("Refrapy export requires finite, positive valid pick times.")
+    for indices in (shots, receivers):
+        if (not np.all(np.isfinite(indices)) or np.any(indices != np.floor(indices))
+                or np.any(indices < 0) or np.any(indices >= len(positions))):
+            raise ValueError("Pick sensor indices must be integers within the sensor table.")
+
+    filename = Path(filename)
+    with filename.open("w", encoding="utf-8", newline="\n") as output:
+        output.write(f"{len(positions)} # shot/geophone points\n#x y\n")
+        for x, elevation, _ in positions:
+            output.write(f"{x:.12g} {elevation:.12g}\n")
+        output.write(f"{len(times)} # measurements\n#s g t\n")
+        for shot, receiver, time in zip(shots, receivers, times):
+            output.write(f"{int(shot) + 1} {int(receiver) + 1} {time:.12g}\n")
+    return filename
 
 
 def create_mesh(data, para_dx=0.5, para_depth=12.0, quality=33.5,

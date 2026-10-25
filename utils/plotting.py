@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 def plot_wiggle(gather, ax=None, t_max=None, scale=0.45, fill_color="#9ecae1",
@@ -296,6 +297,10 @@ def plot_velocity_contours(manager, levels, ax=None, width=9.0, height=4.0,
 VP_CLASS_EDGES = [500.0, 1000.0, 1500.0]  # m/s
 VP_CLASS_COLORS = ["#eadbb8", "#c8a06e", "#8c6a4a", "#7d8186"]
 VP_CLASS_LABELS = ["< 500", "500–1000", "1000–1500", "≥ 1500"]
+# NEHRP / Eurocode-style Vs site-class limits (indicative, not Vs30 classes).
+VS_CLASS_EDGES = [180.0, 360.0, 760.0]  # m/s
+VS_CLASS_COLORS = VP_CLASS_COLORS
+VS_CLASS_LABELS = ["< 180", "180–360", "360–760", "≥ 760"]
 
 
 def plot_material_classes(manager, ax=None, width=11.0, height=5.0, xlim=None):
@@ -326,23 +331,63 @@ def plot_material_classes(manager, ax=None, width=11.0, height=5.0, xlim=None):
     return ax
 
 
-def vp_class_layers(depth, vp):
-    """Merge a Vp(z) profile into contiguous Vp-class layers.
+def velocity_class_layers(depth, velocity, edges, key="v_mean_m_s"):
+    """Merge a velocity profile into contiguous class layers.
 
-    Returns a list of dicts with top_m, bottom_m, vp_mean_m_s and class index;
-    boundaries sit midway between the last and first sample of adjacent layers.
+    Returns a list of dicts with top_m, bottom_m, `key` (layer mean) and
+    class index; boundaries sit midway between the last and first sample of
+    adjacent layers. NaN samples are dropped.
     """
-    depth, vp = np.asarray(depth, float), np.asarray(vp, float)
-    classes = np.searchsorted(VP_CLASS_EDGES, vp, side="right")
+    depth, velocity = np.asarray(depth, float), np.asarray(velocity, float)
+    valid = np.isfinite(velocity)
+    depth, velocity = depth[valid], velocity[valid]
+    classes = np.searchsorted(edges, velocity, side="right")
     layers, start = [], 0
     for i in range(1, len(depth) + 1):
         if i == len(depth) or classes[i] != classes[start]:
             layers.append({"top_m": depth[start], "bottom_m": depth[i - 1],
-                           "vp_mean_m_s": vp[start:i].mean(), "class": int(classes[start])})
+                           key: velocity[start:i].mean(), "class": int(classes[start])})
             start = i
     for upper, lower in zip(layers[:-1], layers[1:]):
         upper["bottom_m"] = lower["top_m"] = (upper["bottom_m"] + lower["top_m"]) / 2
     return layers
+
+
+def vp_class_layers(depth, vp):
+    """Vp-class layers of a Vp(z) profile (see `velocity_class_layers`)."""
+    return velocity_class_layers(depth, vp, VP_CLASS_EDGES, key="vp_mean_m_s")
+
+
+def vs_class_layers(depth, vs):
+    """Vs-class layers of a Vs(z) profile (see `velocity_class_layers`)."""
+    return velocity_class_layers(depth, vs, VS_CLASS_EDGES, key="vs_mean_m_s")
+
+
+def _class_column(ax, layers, colors, labels, xlabel, label_boundaries="right", z_top=None):
+    """Fill a narrow axis with class layers; boundary depths beside or inside it.
+
+    With `z_top`, the gap between z_top and the first layer is hatched as no data.
+    """
+    if z_top is not None and layers and layers[0]["top_m"] > z_top:
+        ax.axhspan(z_top, layers[0]["top_m"], fill=False, hatch="///", ec="0.75", lw=0)
+        ax.text(0.5, (z_top + layers[0]["top_m"]) / 2, "no data", ha="center",
+                va="center", fontsize=8, color="0.45")
+    for layer in layers:
+        ax.axhspan(layer["top_m"], layer["bottom_m"],
+                   color=colors[layer["class"]], ec="0.3", lw=0.6)
+        ax.text(0.5, (layer["top_m"] + layer["bottom_m"]) / 2,
+                labels[layer["class"]], ha="center", va="center", fontsize=8,
+                color="white" if layer["class"] >= 2 else "black")
+    for layer in layers[:-1]:
+        if label_boundaries == "right":
+            ax.text(1.04, layer["bottom_m"], f'{layer["bottom_m"]:.1f} m',
+                    transform=ax.get_yaxis_transform(), va="center", fontsize=8)
+        else:
+            ax.text(0.97, layer["bottom_m"], f'{layer["bottom_m"]:.1f}',
+                    transform=ax.get_yaxis_transform(), ha="right", va="bottom",
+                    fontsize=7, color="white" if layer["class"] >= 2 else "black")
+    ax.set_xticks([])
+    ax.set_xlabel(xlabel)
 
 
 def plot_1d_profile(vp_profile, vs_profile=None, width=6.5, height=5.0):
@@ -372,20 +417,149 @@ def plot_1d_profile(vp_profile, vs_profile=None, width=6.5, height=5.0):
     ax_v.grid(alpha=0.3)
     ax_v.legend(fontsize=8, loc="lower left", frameon=False)
 
-    for layer in layers:
-        ax_m.axhspan(layer["top_m"], layer["bottom_m"],
-                     color=VP_CLASS_COLORS[layer["class"]], ec="0.3", lw=0.6)
-        ax_m.text(0.5, (layer["top_m"] + layer["bottom_m"]) / 2,
-                  VP_CLASS_LABELS[layer["class"]], ha="center", va="center", fontsize=8,
-                  color="white" if layer["class"] >= 2 else "black")
     for layer in layers[:-1]:
         ax_v.axhline(layer["bottom_m"], color="0.4", ls=":", lw=0.9)
-        ax_m.text(1.04, layer["bottom_m"], f'{layer["bottom_m"]:.1f} m',
-                  transform=ax_m.get_yaxis_transform(), va="center", fontsize=8)
-    ax_m.set_xticks([])
-    ax_m.set_xlabel("Vp (m/s)")
+    _class_column(ax_m, layers, VP_CLASS_COLORS, VP_CLASS_LABELS, "Vp (m/s)")
     ax_v.set_ylim(z.max(), min(z.min(), 0))
     return fig, layers
+
+
+def _shot_lines(ax, vs_profile, label=None):
+    """Thin grey lines for the single-shot Vs profiles (vs_shot*_m_s)."""
+    for col in [c for c in vs_profile.columns if c.startswith("vs_shot")]:
+        ax.plot(vs_profile[col], vs_profile["depth_m"], color="0.55", lw=0.8, label=label)
+        label = None
+
+
+def plot_1d_vs_profile(vs_profile, flagged=None, width=6.5, height=5.0, z_top=0.0):
+    """MASW Vs(z), single-shot profiles and the Vs-class column.
+
+    `vs_profile` needs depth_m and vs_m_s; optional vs_shot*_m_s columns
+    (single-shot profiles) are drawn as thin lines. `flagged` (depth_m,
+    vs_m_s) are picks left out of the profile, drawn as grey crosses.
+    """
+    z = vs_profile["depth_m"].to_numpy()
+    layers = vs_class_layers(z, vs_profile["vs_m_s"])
+
+    fig, (ax_v, ax_m) = plt.subplots(
+        1, 2, figsize=(width, height), sharey=True,
+        gridspec_kw={"width_ratios": [2.2, 1], "wspace": 0.05})
+    _shot_lines(ax_v, vs_profile, label="Vs shots")
+    ax_v.plot(vs_profile["vs_m_s"], z, color="0.2", lw=2, label="Vs mean")
+    if flagged is not None and len(flagged):
+        ax_v.plot(flagged["vs_m_s"], flagged["depth_m"], "x", color="0.6", ms=5,
+                  label="λ < 2Δx")
+    for layer in layers[:-1]:
+        ax_v.axhline(layer["bottom_m"], color="0.4", ls=":", lw=0.9)
+    ax_v.set_xlabel("Vs (m/s)")
+    ax_v.set_ylabel("Depth (m)")
+    ax_v.set_xlim(left=0)
+    ax_v.grid(alpha=0.3)
+    ax_v.legend(fontsize=8, loc="lower left", frameon=False)
+    z_flag = [] if flagged is None else list(flagged["depth_m"])
+    top = min([z_top] + z_flag)
+    _class_column(ax_m, layers, VS_CLASS_COLORS, VS_CLASS_LABELS, "Vs (m/s)", z_top=top)
+    ax_v.set_ylim(max([z.max()] + z_flag), top)
+    return fig, layers
+
+
+def plot_1d_vp_vs(vp_profile, vs_profile, width=9.0, height=5.0):
+    """Combined 1D panel: Vp and Vs versus depth, Vp/Vs, Vp and Vs classes.
+
+    `vp_profile`: depth_m, vp_m_s and optional vp_p10_m_s / vp_p90_m_s.
+    `vs_profile`: depth_m, vs_m_s and optional vs_shot*_m_s columns.
+    Vp/Vs uses the Vp mean interpolated to the Vs depths. Returns
+    (fig, vp_layers, vs_layers, ratio) with ratio as a DataFrame.
+    """
+    z_p = vp_profile["depth_m"].to_numpy()
+    vp = vp_profile["vp_m_s"].to_numpy()
+    z_s = vs_profile["depth_m"].to_numpy()
+    vs = vs_profile["vs_m_s"].to_numpy()
+    vp_layers = vp_class_layers(z_p, vp)
+    vs_layers = vs_class_layers(z_s, vs)
+
+    order = np.argsort(z_p)
+    inside = (z_s >= z_p.min()) & (z_s <= z_p.max())
+    vp_at_s = np.where(inside, np.interp(z_s, z_p[order], vp[order]), np.nan)
+    ratio = pd.DataFrame({"depth_m": z_s, "vp_m_s": vp_at_s, "vs_m_s": vs,
+                          "vp_vs": vp_at_s / vs})
+
+    fig, (ax_v, ax_r, ax_p, ax_s) = plt.subplots(
+        1, 4, figsize=(width, height), sharey=True,
+        gridspec_kw={"width_ratios": [2.2, 1.0, 0.75, 0.75], "wspace": 0.08})
+    if {"vp_p10_m_s", "vp_p90_m_s"} <= set(vp_profile.columns):
+        ax_v.fill_betweenx(z_p, vp_profile["vp_p10_m_s"], vp_profile["vp_p90_m_s"],
+                           color="#8c6a4a", alpha=0.2, lw=0)
+    _shot_lines(ax_v, vs_profile)
+    ax_v.plot(vp, z_p, color="#5a3d26", lw=2, label="Vp")
+    ax_v.plot(vs, z_s, color="0.2", lw=2, ls="--", label="Vs")
+    ax_v.set_xlabel("Velocity (m/s)")
+    ax_v.set_ylabel("Depth (m)")
+    ax_v.set_xlim(left=0)
+    ax_v.grid(alpha=0.3)
+    ax_v.legend(fontsize=8, loc="lower left", frameon=False)
+
+    ax_r.plot(ratio["vp_vs"], z_s, color="0.2", lw=1.8)
+    ax_r.set_xlabel("Vp/Vs")
+    ax_r.set_xlim(1.4, max(4.0, np.nanmax(ratio["vp_vs"]) + 0.2))
+    ax_r.grid(alpha=0.3)
+
+    top = min(z_p.min(), z_s.min(), 0.0)
+    _class_column(ax_p, vp_layers, VP_CLASS_COLORS, VP_CLASS_LABELS, "Vp",
+                  label_boundaries="inside", z_top=top)
+    _class_column(ax_s, vs_layers, VS_CLASS_COLORS, VS_CLASS_LABELS, "Vs",
+                  label_boundaries="inside", z_top=top)
+    ax_v.set_ylim(max(z_p.max(), z_s.max()), top)
+    return fig, vp_layers, vs_layers, ratio
+
+
+def plot_material_log(vp_profile, vs_profile, material_layers, width=8.0, height=5.0):
+    """Velocity curves beside a material log of interpreted intervals.
+
+    `material_layers` is the output of `interpretation.interpret_vp_vs`
+    (top_m, bottom_m, material, class, vp_mean_m_s, vs_mean_m_s, vp_vs).
+    Interval colors follow the Vp classes; Vs-constrained intervals are
+    outlined thicker. Returns the figure.
+    """
+    fig, (ax_v, ax_m) = plt.subplots(
+        1, 2, figsize=(width, height), sharey=True,
+        gridspec_kw={"width_ratios": [1.3, 1.7], "wspace": 0.04})
+    z_p = vp_profile["depth_m"]
+    if {"vp_p10_m_s", "vp_p90_m_s"} <= set(vp_profile.columns):
+        ax_v.fill_betweenx(z_p, vp_profile["vp_p10_m_s"], vp_profile["vp_p90_m_s"],
+                           color="#8c6a4a", alpha=0.2, lw=0)
+    ax_v.plot(vp_profile["vp_m_s"], z_p, color="#5a3d26", lw=2, label="Vp")
+    ax_v.plot(vs_profile["vs_m_s"], vs_profile["depth_m"], color="0.2", lw=2,
+              ls="--", label="Vs")
+    ax_v.set_xlabel("Velocity (m/s)")
+    ax_v.set_ylabel("Depth (m)")
+    ax_v.set_xlim(left=0)
+    ax_v.grid(alpha=0.3)
+    ax_v.legend(fontsize=8, loc="lower left", frameon=False)
+
+    for _, layer in material_layers.iterrows():
+        top, bottom = layer["top_m"], layer["bottom_m"]
+        has_vs = np.isfinite(layer["vs_mean_m_s"])
+        ax_m.axhspan(top, bottom, color=VP_CLASS_COLORS[int(layer["class"])],
+                     ec="0.2", lw=1.6 if has_vs else 0.6)
+        values = f'Vp {layer["vp_mean_m_s"]:.0f} m/s'
+        if has_vs:
+            values += f'\nVs {layer["vs_mean_m_s"]:.0f} m/s · Vp/Vs {layer["vp_vs"]:.1f}'
+        color = "white" if layer["class"] >= 2 else "black"
+        mid = (top + bottom) / 2
+        ax_m.text(0.05, mid, layer["material"], ha="left", va="bottom",
+                  fontsize=9, fontweight="bold", color=color)
+        ax_m.text(0.05, mid, values, ha="left", va="top", fontsize=8, color=color,
+                  linespacing=1.3)
+    for top in material_layers["top_m"].iloc[1:]:
+        ax_m.text(0.98, top, f"{top:.1f} m", ha="right", va="bottom", fontsize=7,
+                  color="0.15", transform=ax_m.get_yaxis_transform())
+    ax_m.set_xticks([])
+    ax_m.set_xlim(0, 1)
+    ax_m.set_xlabel("Material (hypothesis)")
+    ax_v.set_ylim(round(material_layers["bottom_m"].max(), 1),
+                  min(0.0, material_layers["top_m"].min()))
+    return fig
 
 
 def plot_tomogram(manager, ax=None, width=7.0, height=None, fontsize=7,

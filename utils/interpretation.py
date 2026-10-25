@@ -171,6 +171,111 @@ def classify_materials(properties, poisson_saturated=0.45,
 # Summary figure
 # ----------------------------------------------------------------------
 
+# Reference ranges for the range-based interpretation. Typical published
+# values (e.g. Reynolds 2011; NEHRP / Eurocode 8 for Vs); they overlap in
+# nature, so each row is a hypothesis, not an identification.
+# (upper limit m/s, range label, material)
+VP_MATERIALS = [
+    (500.0, "< 500", "dry loose soil, topsoil or uncompacted fill"),
+    (1000.0, "500–1000", "unsaturated soil or compacted fill (sand, silt)"),
+    (1500.0, "1000–1500", "dense or moist soil, clay or compact gravel"),
+    (np.inf, "≥ 1500", "saturated soil (below water table) or weathered rock"),
+]
+# Short names for plots, same order as VP_MATERIALS / VS_MATERIALS.
+VP_MATERIAL_SHORT = ["Loose dry soil / topsoil", "Unsaturated soil / fill",
+                     "Dense or moist soil", "Saturated soil / weathered rock"]
+VS_MATERIAL_SHORT = ["soft", "stiff", "very dense", "rock"]
+VS_MATERIALS = [
+    (180.0, "< 180", "soft soil (NEHRP E)"),
+    (360.0, "180–360", "stiff soil (NEHRP D)"),
+    (760.0, "360–760", "very dense soil or soft rock (NEHRP C)"),
+    (np.inf, "≥ 760", "rock (NEHRP B)"),
+]
+VP_VS_NOTES = [
+    (2.0, "< 2", "consolidated / rock-like"),
+    (3.0, "2–3", "typical unsaturated soil"),
+    (4.0, "3–4", "soft or partly saturated soil"),
+    (np.inf, "≥ 4", "likely saturated"),
+]
+
+
+def _lookup(value, table):
+    for upper, label, text in table:
+        if value < upper:
+            return label, text
+    return table[-1][1], table[-1][2]
+
+
+def _index(value, table):
+    return next((i for i, row in enumerate(table) if value < row[0]), len(table) - 1)
+
+
+def material_reference_table():
+    """VP_MATERIALS, VS_MATERIALS and VP_VS_NOTES as one display table."""
+    rows = [("Vp", label, text) for _, label, text in VP_MATERIALS]
+    rows += [("Vs", label, text) for _, label, text in VS_MATERIALS]
+    rows += [("Vp/Vs", label, text) for _, label, text in VP_VS_NOTES]
+    return pd.DataFrame(rows, columns=["property", "range", "typical material"])
+
+
+def interpret_vp_vs(vp_profile, vs_profile, min_thickness=0.5):
+    """Range-based material interpretation of 1D Vp(z) and Vs(z) profiles.
+
+    Vs is interpolated to the Vp depths (NaN where MASW has no data). Depths
+    are grouped into contiguous intervals with the same Vp range and Vs
+    range; intervals thinner than `min_thickness` (m) join the one above.
+    Each interval gets the VP_MATERIALS / VS_MATERIALS text, and the
+    mean Vp/Vs adds the VP_VS_NOTES remark. Returns one row per interval,
+    with a short `material` name and the Vp `class` index for plotting.
+    """
+    z = vp_profile["depth_m"].to_numpy()
+    vp = vp_profile["vp_m_s"].to_numpy()
+    z_vs = vs_profile["depth_m"].to_numpy()
+    inside = (z >= z_vs.min()) & (z <= z_vs.max())
+    vs = np.where(inside, np.interp(z, z_vs, vs_profile["vs_m_s"].to_numpy()), np.nan)
+
+    keys = [(_lookup(p, VP_MATERIALS)[0],
+             _lookup(s, VS_MATERIALS)[0] if np.isfinite(s) else None)
+            for p, s in zip(vp, vs)]
+
+    runs, start = [], 0
+    for i in range(1, len(z) + 1):
+        if i == len(z) or keys[i] != keys[start]:
+            runs.append([start, i])
+            start = i
+    merged = []
+    for run in runs:
+        if merged and z[run[1] - 1] - z[run[0]] < min_thickness:
+            merged[-1][1] = run[1]
+        else:
+            merged.append(run)
+
+    rows = []
+    for a, b in merged:
+        vp_mean = vp[a:b].mean()
+        vs_seg = vs[a:b][np.isfinite(vs[a:b])]
+        vp_range, vp_text = _lookup(vp_mean, VP_MATERIALS)
+        text = f"Vp: {vp_text}"
+        vs_mean = ratio = np.nan
+        vs_range = "no data"
+        if len(vs_seg) > (b - a) / 2:
+            vs_mean = vs_seg.mean()
+            ratio = vp_mean / vs_mean
+            vs_range, vs_text = _lookup(vs_mean, VS_MATERIALS)
+            text += f"; Vs: {vs_text}; Vp/Vs {ratio:.1f}: {_lookup(ratio, VP_VS_NOTES)[1]}"
+        vp_class = _index(vp_mean, VP_MATERIALS)
+        material = VP_MATERIAL_SHORT[vp_class]
+        if np.isfinite(vs_mean):
+            material += f" (Vs: {VS_MATERIAL_SHORT[_index(vs_mean, VS_MATERIALS)]})"
+        rows.append({"top_m": z[a], "bottom_m": z[b - 1], "vp_mean_m_s": vp_mean,
+                     "vs_mean_m_s": vs_mean, "vp_vs": ratio, "vp_range": vp_range,
+                     "vs_range": vs_range, "material": material, "class": vp_class,
+                     "interpretation": text})
+    for upper, lower in zip(rows[:-1], rows[1:]):
+        upper["bottom_m"] = lower["top_m"] = (upper["bottom_m"] + lower["top_m"]) / 2
+    return pd.DataFrame(rows)
+
+
 def plot_interpretation(properties, layers, title="Joint RF + MASW interpretation"):
     """Four panels: velocities, Poisson's ratio, stiffness moduli and the
     interpreted material column, on a shared depth axis."""

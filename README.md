@@ -73,6 +73,21 @@ x = 0–55 m with its lateral P10–P90 band and a column of the same
 Vp classes computed from the mean profile, labelled with boundary depths. The
 average hides lateral changes (see the band), so the layer depths are indicative.
 
+The MASW notebook drops dispersion picks with wavelength below `MIN_WAVELENGTH`
+(10 m = 2 × the 5 m receiver spacing). A synthetic plane-wave test showed slow
+alias peaks with 0.9–1.0 of the true peak energy, so those picks are
+ambiguous. One of them (≈ 60 m/s at 12.7 Hz) produced a false Vs dip to
+≈ 90 m/s at 2 m. The Vs profile therefore starts at λ/2.5 ≈ 4 m. Section 4.1
+plots it with the single-shot profiles, the excluded picks (crosses) and
+NEHRP-style Vs classes (180/360/760 m/s) in `L1/MASW_profile_1d.png`.
+Section 6.2 of the RF notebook combines Vp and Vs, Vp/Vs where both exist, and
+both class columns in `L1/RF_results/profile_1d_vp_vs.png`.
+Section 6.3 applies typical Vp, Vs (NEHRP) and Vp/Vs ranges
+(`interpretation.VP_MATERIALS`, `VS_MATERIALS`, `VP_VS_NOTES`) to the 1D
+profiles. It writes one hypothesis per depth interval to
+`L1/RF_results/material_interpretation_1d.csv` and draws them as a material log
+(`L1/RF_results/material_log_1d.png`).
+
 Before picking, `RESTACK_ALIGNED = True` re-stacks the individual hammer hits
 (`utils/shot_stacking.py`). The field stacks are the plain mean of 3 hits that
 are offset by trigger jitter of up to ~2 ms; each hit is aligned by

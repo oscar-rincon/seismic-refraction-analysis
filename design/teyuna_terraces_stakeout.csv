@@ -1,0 +1,301 @@
+tendido,tipo,n,x,y
+O000,geófono,1,0.85,0.0
+O000,geófono,2,1.6,0.0
+O000,geófono,3,2.35,0.0
+O000,geófono,4,3.1,0.0
+O000,geófono,5,3.85,0.0
+O000,geófono,6,4.6,0.0
+O000,geófono,7,5.35,0.0
+O000,geófono,8,6.1,0.0
+O000,geófono,9,6.85,0.0
+O000,geófono,10,7.6,0.0
+O000,geófono,11,8.35,0.0
+O000,geófono,12,9.1,0.0
+O000,geófono,13,9.85,0.0
+O000,geófono,14,10.6,0.0
+O000,geófono,15,11.35,0.0
+O000,geófono,16,12.1,0.0
+O000,geófono,17,12.85,0.0
+O000,geófono,18,13.6,0.0
+O000,geófono,19,14.35,0.0
+O000,geófono,20,15.1,0.0
+O000,geófono,21,15.85,0.0
+O000,geófono,22,16.6,0.0
+O000,geófono,23,17.35,0.0
+O000,golpe línea,1,0.7,0.0
+O000,golpe línea,2,1.6,0.0
+O000,golpe línea,3,3.1,0.0
+O000,golpe línea,4,4.6,0.0
+O000,golpe línea,5,6.1,0.0
+O000,golpe línea,6,7.6,0.0
+O000,golpe línea,7,9.1,0.0
+O000,golpe línea,8,10.6,0.0
+O000,golpe línea,9,12.1,0.0
+O000,golpe línea,10,13.6,0.0
+O000,golpe línea,11,15.1,0.0
+O000,golpe línea,12,16.6,0.0
+O000,golpe línea,13,17.5,0.0
+O060,geófono,1,4.97,-7.14
+O060,geófono,2,5.35,-6.5
+O060,geófono,3,5.72,-5.85
+O060,geófono,4,6.1,-5.2
+O060,geófono,5,6.48,-4.55
+O060,geófono,6,6.85,-3.9
+O060,geófono,7,7.22,-3.25
+O060,geófono,8,7.6,-2.6
+O060,geófono,9,7.98,-1.95
+O060,geófono,10,8.35,-1.3
+O060,geófono,11,8.72,-0.65
+O060,geófono,12,9.1,0.0
+O060,geófono,13,9.48,0.65
+O060,geófono,14,9.85,1.3
+O060,geófono,15,10.22,1.95
+O060,geófono,16,10.6,2.6
+O060,geófono,17,10.98,3.25
+O060,geófono,18,11.35,3.9
+O060,geófono,19,11.72,4.55
+O060,geófono,20,12.1,5.2
+O060,geófono,21,12.48,5.85
+O060,geófono,22,12.85,6.5
+O060,geófono,23,13.23,7.14
+O060,golpe línea,1,4.94,-7.21
+O060,golpe línea,2,5.35,-6.5
+O060,golpe línea,3,6.1,-5.2
+O060,golpe línea,4,6.85,-3.9
+O060,golpe línea,5,7.6,-2.6
+O060,golpe línea,6,8.35,-1.3
+O060,golpe línea,7,9.1,0.0
+O060,golpe línea,8,9.85,1.3
+O060,golpe línea,9,10.6,2.6
+O060,golpe línea,10,11.35,3.9
+O060,golpe línea,11,12.1,5.2
+O060,golpe línea,12,12.85,6.5
+O060,golpe línea,13,13.26,7.21
+O120,geófono,1,13.22,-7.14
+O120,geófono,2,12.85,-6.5
+O120,geófono,3,12.47,-5.85
+O120,geófono,4,12.1,-5.2
+O120,geófono,5,11.72,-4.55
+O120,geófono,6,11.35,-3.9
+O120,geófono,7,10.97,-3.25
+O120,geófono,8,10.6,-2.6
+O120,geófono,9,10.22,-1.95
+O120,geófono,10,9.85,-1.3
+O120,geófono,11,9.48,-0.65
+O120,geófono,12,9.1,0.0
+O120,geófono,13,8.72,0.65
+O120,geófono,14,8.35,1.3
+O120,geófono,15,7.98,1.95
+O120,geófono,16,7.6,2.6
+O120,geófono,17,7.22,3.25
+O120,geófono,18,6.85,3.9
+O120,geófono,19,6.48,4.55
+O120,geófono,20,6.1,5.2
+O120,geófono,21,5.73,5.85
+O120,geófono,22,5.35,6.5
+O120,geófono,23,4.98,7.14
+O120,golpe línea,1,13.26,-7.21
+O120,golpe línea,2,12.85,-6.5
+O120,golpe línea,3,12.1,-5.2
+O120,golpe línea,4,11.35,-3.9
+O120,golpe línea,5,10.6,-2.6
+O120,golpe línea,6,9.85,-1.3
+O120,golpe línea,7,9.1,0.0
+O120,golpe línea,8,8.35,1.3
+O120,golpe línea,9,7.6,2.6
+O120,golpe línea,10,6.85,3.9
+O120,golpe línea,11,6.1,5.2
+O120,golpe línea,12,5.35,6.5
+O120,golpe línea,13,4.94,7.21
+E000,geófono,1,20.75,0.0
+E000,geófono,2,21.5,0.0
+E000,geófono,3,22.25,0.0
+E000,geófono,4,23.0,0.0
+E000,geófono,5,23.75,0.0
+E000,geófono,6,24.5,0.0
+E000,geófono,7,25.25,0.0
+E000,geófono,8,26.0,0.0
+E000,geófono,9,26.75,0.0
+E000,geófono,10,27.5,0.0
+E000,geófono,11,28.25,0.0
+E000,geófono,12,29.0,0.0
+E000,geófono,13,29.75,0.0
+E000,geófono,14,30.5,0.0
+E000,geófono,15,31.25,0.0
+E000,geófono,16,32.0,0.0
+E000,geófono,17,32.75,0.0
+E000,geófono,18,33.5,0.0
+E000,geófono,19,34.25,0.0
+E000,geófono,20,35.0,0.0
+E000,geófono,21,35.75,0.0
+E000,geófono,22,36.5,0.0
+E000,geófono,23,37.25,0.0
+E000,golpe línea,1,18.7,0.0
+E000,golpe línea,2,20.0,0.0
+E000,golpe línea,3,21.5,0.0
+E000,golpe línea,4,23.0,0.0
+E000,golpe línea,5,24.5,0.0
+E000,golpe línea,6,26.0,0.0
+E000,golpe línea,7,27.5,0.0
+E000,golpe línea,8,29.0,0.0
+E000,golpe línea,9,30.5,0.0
+E000,golpe línea,10,32.0,0.0
+E000,golpe línea,11,33.5,0.0
+E000,golpe línea,12,35.0,0.0
+E000,golpe línea,13,36.5,0.0
+E000,golpe línea,14,38.0,0.0
+E000,golpe línea,15,39.3,0.0
+E060,geófono,1,24.88,-7.14
+E060,geófono,2,25.25,-6.5
+E060,geófono,3,25.62,-5.85
+E060,geófono,4,26.0,-5.2
+E060,geófono,5,26.38,-4.55
+E060,geófono,6,26.75,-3.9
+E060,geófono,7,27.12,-3.25
+E060,geófono,8,27.5,-2.6
+E060,geófono,9,27.88,-1.95
+E060,geófono,10,28.25,-1.3
+E060,geófono,11,28.62,-0.65
+E060,geófono,12,29.0,0.0
+E060,geófono,13,29.38,0.65
+E060,geófono,14,29.75,1.3
+E060,geófono,15,30.12,1.95
+E060,geófono,16,30.5,2.6
+E060,geófono,17,30.88,3.25
+E060,geófono,18,31.25,3.9
+E060,geófono,19,31.62,4.55
+E060,geófono,20,32.0,5.2
+E060,geófono,21,32.38,5.85
+E060,geófono,22,32.75,6.5
+E060,geófono,23,33.12,7.14
+E060,golpe línea,1,24.87,-7.15
+E060,golpe línea,2,25.25,-6.5
+E060,golpe línea,3,26.0,-5.2
+E060,golpe línea,4,26.75,-3.9
+E060,golpe línea,5,27.5,-2.6
+E060,golpe línea,6,28.25,-1.3
+E060,golpe línea,7,29.0,0.0
+E060,golpe línea,8,29.75,1.3
+E060,golpe línea,9,30.5,2.6
+E060,golpe línea,10,31.25,3.9
+E060,golpe línea,11,32.0,5.2
+E060,golpe línea,12,32.75,6.5
+E060,golpe línea,13,33.13,7.15
+E120,geófono,1,33.12,-7.14
+E120,geófono,2,32.75,-6.5
+E120,geófono,3,32.38,-5.85
+E120,geófono,4,32.0,-5.2
+E120,geófono,5,31.62,-4.55
+E120,geófono,6,31.25,-3.9
+E120,geófono,7,30.88,-3.25
+E120,geófono,8,30.5,-2.6
+E120,geófono,9,30.12,-1.95
+E120,geófono,10,29.75,-1.3
+E120,geófono,11,29.38,-0.65
+E120,geófono,12,29.0,0.0
+E120,geófono,13,28.62,0.65
+E120,geófono,14,28.25,1.3
+E120,geófono,15,27.88,1.95
+E120,geófono,16,27.5,2.6
+E120,geófono,17,27.12,3.25
+E120,geófono,18,26.75,3.9
+E120,geófono,19,26.38,4.55
+E120,geófono,20,26.0,5.2
+E120,geófono,21,25.62,5.85
+E120,geófono,22,25.25,6.5
+E120,geófono,23,24.88,7.14
+E120,golpe línea,1,33.13,-7.15
+E120,golpe línea,2,32.75,-6.5
+E120,golpe línea,3,32.0,-5.2
+E120,golpe línea,4,31.25,-3.9
+E120,golpe línea,5,30.5,-2.6
+E120,golpe línea,6,29.75,-1.3
+E120,golpe línea,7,29.0,0.0
+E120,golpe línea,8,28.25,1.3
+E120,golpe línea,9,27.5,2.6
+E120,golpe línea,10,26.75,3.9
+E120,golpe línea,11,26.0,5.2
+E120,golpe línea,12,25.25,6.5
+E120,golpe línea,13,24.87,7.15
+O-anillo,golpe anillo,1,17.5,0.0
+O-anillo,golpe anillo,2,16.92,3.03
+O-anillo,golpe anillo,3,15.28,5.63
+O-anillo,golpe anillo,4,12.81,7.44
+O-anillo,golpe anillo,5,9.86,8.27
+O-anillo,golpe anillo,6,6.8,7.98
+O-anillo,golpe anillo,7,4.05,6.63
+O-anillo,golpe anillo,8,1.96,4.37
+O-anillo,golpe anillo,9,0.84,1.52
+O-anillo,golpe anillo,10,0.85,-1.54
+O-anillo,golpe anillo,11,1.97,-4.39
+O-anillo,golpe anillo,12,4.07,-6.65
+O-anillo,golpe anillo,13,6.83,-7.99
+O-anillo,golpe anillo,14,9.88,-8.26
+O-anillo,golpe anillo,15,12.84,-7.43
+O-anillo,golpe anillo,16,15.29,-5.61
+O-anillo,golpe anillo,17,16.93,-3.01
+E-anillo,golpe anillo,1,39.3,0.0
+E-anillo,golpe anillo,2,38.56,2.9
+E-anillo,golpe anillo,3,36.66,5.22
+E-anillo,golpe anillo,4,34.1,6.78
+E-anillo,golpe anillo,5,31.24,7.61
+E-anillo,golpe anillo,6,28.25,7.78
+E-anillo,golpe anillo,7,25.29,7.28
+E-anillo,golpe anillo,8,22.53,6.07
+E-anillo,golpe anillo,9,20.26,4.13
+E-anillo,golpe anillo,10,18.89,1.47
+E-anillo,golpe anillo,11,18.89,-1.5
+E-anillo,golpe anillo,12,20.28,-4.15
+E-anillo,golpe anillo,13,22.55,-6.08
+E-anillo,golpe anillo,14,25.32,-7.29
+E-anillo,golpe anillo,15,28.28,-7.78
+E-anillo,golpe anillo,16,31.27,-7.61
+E-anillo,golpe anillo,17,34.13,-6.77
+E-anillo,golpe anillo,18,36.68,-5.2
+E-anillo,golpe anillo,19,38.58,-2.87
+ENLACE,geófono,1,0.3,0.0
+ENLACE,geófono,2,1.3,0.0
+ENLACE,geófono,3,2.3,0.0
+ENLACE,geófono,4,3.3,0.0
+ENLACE,geófono,5,4.3,0.0
+ENLACE,geófono,6,5.3,0.0
+ENLACE,geófono,7,6.3,0.0
+ENLACE,geófono,8,7.3,0.0
+ENLACE,geófono,9,8.3,0.0
+ENLACE,geófono,10,9.3,0.0
+ENLACE,geófono,11,10.3,0.0
+ENLACE,geófono,12,11.3,0.0
+ENLACE,geófono,13,12.3,0.0
+ENLACE,geófono,14,13.3,0.0
+ENLACE,geófono,15,14.3,0.0
+ENLACE,geófono,16,15.3,0.0
+ENLACE,geófono,17,16.3,0.0
+ENLACE,geófono,18,17.3,0.0
+ENLACE,geófono,19,18.3,0.0
+ENLACE,geófono,20,19.3,0.0
+ENLACE,geófono,21,20.3,0.0
+ENLACE,geófono,22,21.3,0.0
+ENLACE,geófono,23,22.3,0.0
+ENLACE,geófono,24,23.3,0.0
+ENLACE,geófono,25,24.3,0.0
+ENLACE,geófono,26,25.3,0.0
+ENLACE,geófono,27,26.3,0.0
+ENLACE,geófono,28,27.3,0.0
+ENLACE,geófono,29,28.3,0.0
+ENLACE,geófono,30,29.3,0.0
+ENLACE,geófono,31,30.3,0.0
+ENLACE,geófono,32,31.3,0.0
+ENLACE,geófono,33,32.3,0.0
+ENLACE,geófono,34,33.3,0.0
+ENLACE,geófono,35,34.3,0.0
+ENLACE,geófono,36,35.3,0.0
+ENLACE,geófono,37,36.3,0.0
+ENLACE,geófono,38,37.3,0.0
+ENLACE,geófono,39,38.3,0.0
+ENLACE,geófono,40,39.3,0.0
+ENLACE,golpe línea,1,0.7,0.0
+ENLACE,golpe línea,2,10.0,0.0
+ENLACE,golpe línea,3,18.0,0.0
+ENLACE,golpe línea,4,22.0,0.0
+ENLACE,golpe línea,5,30.0,0.0
+ENLACE,golpe línea,6,39.3,0.0

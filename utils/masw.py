@@ -116,16 +116,29 @@ def average_curves(curves):
 # Vs depth profile (empirical wavelength-depth transform)
 # ----------------------------------------------------------------------
 
-def vs_profile(curve, depth_factor=2.5, vs_factor=1.09, z_max=None, n_depths=100):
+def _pick_depths(curve, depth_factor, vs_factor):
+    z = curve["wavelength_m"].to_numpy() / depth_factor
+    vs = curve["c_rayleigh_m_s"].to_numpy() * vs_factor
+    return z, vs
+
+
+def vs_profile(curve, depth_factor=2.5, vs_factor=1.09, z_max=None, n_depths=100,
+               min_wavelength=None, depths=None):
     """Empirical Vs(z) profile from the picked dispersion curve.
 
     Each (c_R, wavelength) pair is mapped to a pseudo-depth
     z = wavelength / depth_factor and Vs = vs_factor * c_R
     (vs_factor ~ 1.09 corresponds to Poisson's ratio ~ 0.35).
-    Returns a DataFrame with regularly spaced depth (m) and Vs (m/s).
+    Picks with wavelength < `min_wavelength` are dropped: below twice the
+    receiver spacing the phase-shift image has alias peaks of similar
+    energy, so those picks are ambiguous. `depths` evaluates the profile at
+    given depths (NaN outside the picked range) instead of a regular grid.
+    Returns a DataFrame with depth (m) and Vs (m/s).
     """
-    z = curve["wavelength_m"].to_numpy() / depth_factor
-    vs = curve["c_rayleigh_m_s"].to_numpy() * vs_factor
+    z, vs = _pick_depths(curve, depth_factor, vs_factor)
+    if min_wavelength is not None:
+        keep = curve["wavelength_m"].to_numpy() >= min_wavelength
+        z, vs = z[keep], vs[keep]
 
     order = np.argsort(z)
     z, vs = z[order], vs[order]
@@ -133,20 +146,48 @@ def vs_profile(curve, depth_factor=2.5, vs_factor=1.09, z_max=None, n_depths=100
     vs_unique = vs[idx]
 
     vs_of_z = interpolate.PchipInterpolator(z_unique, vs_unique, extrapolate=True)
+    if depths is not None:
+        z_out = np.asarray(depths, float)
+        vs_out = np.where((z_out >= z_unique[0]) & (z_out <= z_unique[-1]),
+                          vs_of_z(z_out), np.nan)
+        return pd.DataFrame({"depth_m": z_out, "vs_m_s": vs_out})
     z_fine = np.linspace(z_unique[0], z_max or z_unique[-1], n_depths)
     return pd.DataFrame({"depth_m": z_fine, "vs_m_s": vs_of_z(z_fine)})
+
+
+def aliased_picks(curve, min_wavelength, depth_factor=2.5, vs_factor=1.09):
+    """Picks excluded by `vs_profile(min_wavelength=...)`, as depth and Vs."""
+    z, vs = _pick_depths(curve, depth_factor, vs_factor)
+    flagged = curve["wavelength_m"].to_numpy() < min_wavelength
+    return pd.DataFrame({"depth_m": z[flagged], "vs_m_s": vs[flagged]})
+
+
+def add_shot_profiles(profile, curves, **profile_kwargs):
+    """Add one vs_shot{i}_m_s column per shot curve, at the profile depths.
+
+    Each shot is converted with the same `profile_kwargs` as the mean
+    profile. The mean curve is averaged per frequency before the
+    wavelength-depth mapping, so it need not lie between the shot profiles.
+    """
+    out = profile.copy()
+    for i, c in enumerate(curves, start=1):
+        out[f"vs_shot{i}_m_s"] = vs_profile(
+            c, depths=profile["depth_m"], **profile_kwargs)["vs_m_s"].to_numpy()
+    return out
 
 
 def layer_averages(profile, boundaries):
     """Average Vs within layers defined by depth `boundaries` (m).
 
     Example: boundaries=[1.0, 4.0] gives three layers
-    (0 to 1 m, 1 to 4 m, deeper than 4 m).
+    (0 to 1 m, 1 to 4 m, deeper than 4 m). Boundaries outside the
+    profile depth range are ignored.
     Returns a DataFrame with one row per layer.
     """
     z = profile["depth_m"].to_numpy()
     vs = profile["vs_m_s"].to_numpy()
-    edges = [z.min()] + list(boundaries) + [z.max()]
+    inner = [b for b in boundaries if z.min() < b < z.max()]
+    edges = [z.min()] + inner + [z.max()]
 
     rows = []
     for top, bottom in zip(edges[:-1], edges[1:]):

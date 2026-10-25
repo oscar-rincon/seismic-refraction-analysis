@@ -1,0 +1,4 @@
+top_m,bottom_m,vp_mean_m_s,vs_mean_m_s,vp_vs,vp_range,vs_range,material,class,interpretation
+0.0,1.8731835443037974,835.0220586515668,,,500–1000,no data,Unsaturated soil / fill,1,"Vp: unsaturated soil or compacted fill (sand, silt)"
+1.8731835443037974,4.100753164556962,1164.6077136225745,,,1000–1500,no data,Dense or moist soil,2,"Vp: dense or moist soil, clay or compact gravel"
+4.100753164556962,7.999,1270.026582071728,451.7328911430623,2.8114547489735804,1000–1500,360–760,Dense or moist soil (Vs: very dense),2,"Vp: dense or moist soil, clay or compact gravel; Vs: very dense soil or soft rock (NEHRP C); Vp/Vs 2.8: typical unsaturated soil"
